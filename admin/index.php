@@ -1,10 +1,42 @@
-<?php require "resources/includes/header.inc" ?>
-    <h1>Hello, world!</h1>
-    <button class="btn btn-primary">click</button>
-   
-    <i class="fas fa-users"></i>
-    
+<?php 
+    session_start();
+    // Set Language variable
+     if(isset($_GET['lang']) && !empty($_GET['lang'])){
+        $_SESSION['lang'] = $_GET['lang'];
+   }
+   // Include Language file
+    if(isset($_SESSION['lang'])){
+        include "resources/lang/ar.php";
+    }else{
+        include "resources/lang/en.php";
+    }
+    ?>
 
-    
+    <?php require "resources/includes/header.inc" ?>
+
+<!--login form-->
+<div class="container">
+  <h2 class="text-center"><?= $lang?></h2>
+    <form>
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<!--/login form-->
+
+
 
 <?php require "resources/includes/footer.inc" ?>
