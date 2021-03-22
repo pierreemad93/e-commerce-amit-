@@ -26,7 +26,7 @@
   <!-- Language -->
    <section class="lang-choice">
       <a href="?lang=en">English</a>
-      <a href="?lang=ar">Arabic</a>
+      <a href="?lang=ar">العربية</a>
    </section>
    <!-- /Language -->
     <section class="login border-top">
