@@ -28,7 +28,11 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Language
+                        <?php if ($_SESSION['lang'] == 'ar'):?>
+                            language
+                        <?php else:?>
+                             اللغة
+                        <?php endif;?>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#">Action</a></li>
