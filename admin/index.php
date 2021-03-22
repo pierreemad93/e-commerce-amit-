@@ -1,17 +1,23 @@
-<?php 
+<?php
     session_start();
     // Set Language variable
-     if(isset($_GET['lang']) && !empty($_GET['lang'])){
+     if(isset($_GET['lang'])){
         $_SESSION['lang'] = $_GET['lang'];
+   }else{
+         $_SESSION['lang'] = "en" ;
    }
+
+
    // Include Language file
-    if(isset($_SESSION['lang'])){
+    if($_SESSION['lang'] == "en"){
+        include "resources/lang/en.php";
+    }elseif($_SESSION['lang'] == "ar"){
         include "resources/lang/ar.php";
     }else{
         include "resources/lang/en.php";
     }
     ?>
-   
+
     <?php require "resources/includes/header.inc" ?>
 
 <!--login form-->
@@ -19,8 +25,8 @@
   <h2 class="text-center"><?= $lang['admin_login']?></h2>
   <!-- Language -->
    <section class="lang-choice">
-      <a href="">English</a>
-      <a href="">Arabic</a>
+      <a href="?lang=en">English</a>
+      <a href="?lang=ar">Arabic</a>
    </section>
    <!-- /Language -->
     <section class="login border-top">
@@ -41,7 +47,7 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </section>
-    
+
 </div>
 
 <!--/login form-->
