@@ -1,12 +1,7 @@
 <?php
 session_start();
 // Set Language variable
-if (isset($_GET['lang'])) {
-    $_SESSION['lang'] = $_GET['lang'];
-} else {
-    $_SESSION['lang'] = "en";
-}
-
+$_SESSION['lang']=isset($_GET['lang'])?$_GET['lang']:"en";
 // Include Language file
 if ($_SESSION['lang'] == "en") {
     include "resources/lang/en.php";
@@ -16,9 +11,34 @@ if ($_SESSION['lang'] == "en") {
     include "resources/lang/en.php";
 }
 ?>
-<?php require "config.php" ?>
+<?php require "config.php"?>
 <?php require "resources/includes/header.inc" ?>
+<?php
+    if ($_SERVER['REQUEST_METHOD'] == "POST"){
+        $adminUsername = $_POST['adminUsername'];
+        $adminPassword =  $_POST['adminPassword'];
+        $hashedPass= sha1($adminPassword);
+        $query= "SELECT * FROM  users WHERE username= ? AND password= ? AND groupid !=0";
+        $stmt= $con->prepare($query);
+        $stmt->execute(array($adminUsername , $hashedPass));
+        $row= $stmt->fetchAll();
+        /*
+         ** $rowCount() -> boolen function return 1 if data in DB | 0 if data doesn't in DB
+        */
+        $count= $stmt->rowCount();
+        $inDb= 1 ;
+        if ($count == $inDb){
+            $_SESSION['USER_ID'] = $row['userid'];
+            $_SESSION['USER_NAME'] = $row['username'];
+            $_SESSION['EMAIL'] = $row['email'];
+            $_SESSION['FULL_NAME'] = $row['fullname'];
+            $_SESSION['GROUP_ID'] = $row['groupid'];
+            header("location:dashboard.php");
+            exit();
+        }
 
+    }
+?>
     <!--login form-->
     <div class="container">
         <h2 class="text-center"><?= $lang['admin_login'] ?></h2>
@@ -31,22 +51,16 @@ if ($_SESSION['lang'] == "en") {
         <section class="login border-top">
             <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    <label for="exampleInputEmail1" class="form-label">username</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" name="adminUsername">
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1">
-                </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" name="adminPassword">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </section>
-
     </div>
 
     <!--/login form-->
