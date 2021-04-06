@@ -10,7 +10,7 @@
                     <a class="nav-link active" aria-current="page" href="dashboard.php"><?= $lang['dashboard'] ?></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Member</a>
+                    <a class="nav-link" href="members.php">Members</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Product</a>

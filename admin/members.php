@@ -22,8 +22,9 @@ if ($_SESSION['lang'] == "en") {
       $rows=$stmt->fetchAll();
 ?>
 <!--Display members table-->
-<div class="display-members">
+<div class="display-members mt-4">
     <div class="container-fluid">
+        <a class="btn btn-primary" href="?do=add"><i class="fas fa-user"></i> add member</a>
         <table class="table">
             <thead>
                 <tr>
@@ -55,7 +56,43 @@ if ($_SESSION['lang'] == "en") {
 </div>
 <!--/Display members table-->
 <?php elseif($do == "add"):?>
+<div class="add-member">
+    <div class="container-fluid">
+        <h1 class="text-center">Add Member</h1>
+        <form method="post" action="?do=insert">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" name="email">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Fullname</label>
+                <input type="text" class="form-control" name="fullname">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
 <?php elseif($do == "insert"):?>
+<?php 
+     if($_SERVER['REQUEST_METHOD'] == 'POST'){
+         $username = $_POST['username'] ;
+         $password = $_POST['password'];
+         $hashedPass = sha1($password);
+         $email = $_POST['email']; 
+         $fullname =  $_POST['fullname'];
+         $stmt= $con->prepare('INSERT INTO users (username, password ,email , fullname , groupid ,created_at) VALUES (? , ? , ? , ? , 0 , now())');
+         $stmt->execute(array($username , $hashedPass , $email , $fullname));
+         header('location:members.php?do=add');
+     } 
+    ?>
 <?php elseif($do == "edit"):?>
 <?php elseif($do == "update"):?>
 <?php elseif($do == "delete"):?>
@@ -68,7 +105,7 @@ if ($_SESSION['lang'] == "en") {
     $row=$stmt->fetch();
 ?>
 <!--show members table-->
-<div class="show-members mt-5">
+<div class="show-member mt-5">
     <div class="container-fluid">
         <!--Form to show member data -->
         <form>
@@ -89,6 +126,7 @@ if ($_SESSION['lang'] == "en") {
             </div>
             <?php endif?>
         </form>
+        <a href="?do=manage" class="btn btn-dark">Back</a>
         <!--/Form to show member data -->
     </div>
 </div>
