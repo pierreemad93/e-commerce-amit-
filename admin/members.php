@@ -28,6 +28,7 @@ if ($_SESSION['lang'] == "en") {
         <table class="table">
             <thead>
                 <tr>
+                    <th scope="col"> Profile Picture</th>
                     <th scope="col">Username</th>
                     <th scope="col">Email</th>
                     <th scope="col">Created_at</th>
@@ -37,6 +38,9 @@ if ($_SESSION['lang'] == "en") {
             <tbody>
                 <?php  foreach($rows as $row):?>
                 <tr>
+                    <th scope="row">
+                         <img style="height:15vh" src="public/image/uploaded/members/<?= $row['avatar']?>">
+                    </th>
                     <th scope="row"><?= $row['username']?></th>
                     <td><?= $row['email']?></td>
                     <td><?= $row['created_at']?></td>
@@ -59,7 +63,7 @@ if ($_SESSION['lang'] == "en") {
 <div class="add-member">
     <div class="container-fluid">
         <h1 class="text-center">Add Member</h1>
-        <form method="post" action="?do=insert">
+        <form method="post" action="?do=insert" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Username</label>
                 <input type="text" class="form-control" name="username">
@@ -76,6 +80,12 @@ if ($_SESSION['lang'] == "en") {
                 <label for="exampleInputEmail1" class="form-label">Fullname</label>
                 <input type="text" class="form-control" name="fullname">
             </div>
+            <!-- Upload member photo-->
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Upload Member Avatar</label>
+                <input class="form-control" type="file" id="formFile" name="avatar">
+            </div>
+            <!--/Upload member photo-->
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
@@ -83,13 +93,41 @@ if ($_SESSION['lang'] == "en") {
 <?php elseif($do == "insert"):?>
 <?php 
      if($_SERVER['REQUEST_METHOD'] == 'POST'){
+         //upload avatar 
+         //$avatar =$_FILES['avatar']; 
+         /*
+         for dicussion with students
+         =========================== 
+         print_r($avatar);
+         echo $_FILES['avatar']['name']; 
+         echo $_FILES['avatar']['type'];
+         echo $_FILES['avatar']['size'];
+         echo $_FILES['avatar']['tmp_name'];   
+         exit();
+         */
+         $avatarName = $_FILES['avatar']['name'];
+        $avatarType = $_FILES['avatar']['type'];
+         $avatarSize =$_FILES['avatar']['size'];
+         $avatarTmpName = $_FILES['avatar']['tmp_name']; 
+        
+         //list of file extension 
+        
+         $avatarAllowedExtension = array("image/jpeg" , "image/jpg" , "image/png");
+         if(in_array($avatarType , $avatarAllowedExtension)){
+            //echo date("H:i:s Y/m/d");
+           $avatar =rand(0 , 1000)."_".$avatarName;
+           $destination = 'public\image\uploaded\members\\'.$avatar;
+           move_uploaded_file($avatarTmpName,$destination);
+         }
+         
+         //end avatar upload
          $username = $_POST['username'] ;
          $password = $_POST['password'];
          $hashedPass = sha1($password);
          $email = $_POST['email']; 
          $fullname =  $_POST['fullname'];
-         $stmt= $con->prepare('INSERT INTO users (username, password ,email , fullname , groupid ,created_at) VALUES (? , ? , ? , ? , 0 , now())');
-         $stmt->execute(array($username , $hashedPass , $email , $fullname));
+         $stmt= $con->prepare('INSERT INTO users (username, password ,email , fullname , groupid ,created_at , avatar) VALUES (? , ? , ? , ? , 0 , now() , ?)');
+         $stmt->execute(array($username , $hashedPass , $email , $fullname , $avatar));
          header('location:members.php?do=add');
      } 
     ?>
