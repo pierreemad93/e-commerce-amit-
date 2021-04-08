@@ -17,9 +17,16 @@ if ($_SESSION['lang'] == "en") {
 <?php require "resources/includes/footer.inc" ?>
 <?php if($do == "manage"):?>
 <?php 
-      $stmt=$con->prepare("SELECT * FROM users WHERE groupid = 0");
+       /*Start Pagination */
+       $record_per_page = 5 ;
+       $page=isset($_GET['page'])?$_GET['page']:1;
+       $startFrom = ($page-1)*$record_per_page;
+       /*End Pagination */ 
+
+      $stmt=$con->prepare("SELECT * FROM users WHERE groupid = 0 LIMIT $startFrom , $record_per_page");
       $stmt->execute();
       $rows=$stmt->fetchAll();
+      
 ?>
 <!--Display members table-->
 <div class="display-members mt-4">
@@ -39,7 +46,8 @@ if ($_SESSION['lang'] == "en") {
                 <?php  foreach($rows as $row):?>
                 <tr>
                     <th scope="row">
-                         <img style="height:15vh" src="public/image/uploaded/members/<?= $row['avatar']?>">
+                        <img style="height:15vh" src="public/image/uploaded/members/<?= $row['avatar']?>"
+                            alt="<?= $row['avatar']?>">
                     </th>
                     <th scope="row"><?= $row['username']?></th>
                     <td><?= $row['email']?></td>
@@ -56,6 +64,25 @@ if ($_SESSION['lang'] == "en") {
                 <?php endforeach?>
             </tbody>
         </table>
+        <!-- Start pagination Counter -->
+        <?php 
+              $stmt =$con->prepare("SELECT * FROM users  ORDER BY userid DESC"); 
+              $stmt->execute();
+              $total_records=$stmt->rowCount();
+              $total_pages = ceil($total_records/$record_per_page);
+              //Start pagination loop 
+                $startLoop =1 ;
+                $endLoop =$total_pages ;
+             
+        ?>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+            <?php for($i = $startLoop ;  $i<= $endLoop ; $i++):?>
+                <li class="page-item"><a class="page-link" href="?page=<?=$i?>"><?= $i?></a></li>
+            <?php endfor?>
+            </ul>
+        </nav>
+        <!-- End pagination Counter -->
     </div>
 </div>
 <!--/Display members table-->
