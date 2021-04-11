@@ -173,7 +173,7 @@ if ($_SESSION['lang'] == "en") {
 <?php elseif($do == "show"):?>
     <?php 
     //Fetch member with his id
-    $productid = isset($_GET['product_id'])&&is_numeric($_GET['product_id'])?intval($_GET['product_id']):0;
+    $productid = isset($_GET['productid'])&&is_numeric($_GET['productid'])?intval($_GET['productid']):0;
     $stmt = $con->prepare("SELECT procducts.* ,  categories.catname  FROM procducts 
                             INNER JOIN  categories  ON  categories.cat_id = procducts.cat_id WHERE product_id=?
                         ");
@@ -190,8 +190,6 @@ if ($_SESSION['lang'] == "en") {
             <input class="form-control" type="text" placeholder="<?= $row['productname']?>" disabled>
             <label>description</label>
             <input class="form-control" type="text" placeholder="<?= $row['description']?>" disabled>
-            <label>Fullname</label>
-            <input class="form-control" type="text" placeholder="<?= $row['fullname']?>" disabled>
             <label>	price</label>
             <input class="form-control" type="number" placeholder="<?= $row['price']?>" disabled>
             <label>Category name</label>
