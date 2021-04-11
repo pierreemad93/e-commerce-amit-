@@ -71,7 +71,7 @@ if ($_SESSION['lang'] == "en") {
               $total_records=$stmt->rowCount();
               $total_pages = ceil($total_records/$record_per_page);
               //Start pagination loop 
-                $startLoop =1 ;
+                $startLoop = 1 ;
                 $endLoop =$total_pages ;
              
         ?>
