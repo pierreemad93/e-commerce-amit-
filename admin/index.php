@@ -12,6 +12,7 @@ if ($_SESSION['lang'] == "en") {
 }
 ?>
 <?php require "config.php"?>
+<?php require "resources/functions.php"?>
 <?php require "resources/includes/header.inc" ?>
 <?php
     if ($_SERVER['REQUEST_METHOD'] == "POST"){

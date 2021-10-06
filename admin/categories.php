@@ -12,8 +12,6 @@ if ($_SESSION['lang'] == "en") {
 <?php require "config.php"?>
 <?php require "resources/includes/header.inc" ?>
 <?php require "resources/includes/navbar.inc"?>
-
-<?php require "resources/includes/footer.inc" ?>
 <?php if($do == "manage"):?>
 <?php elseif($do == "add"):?>
 <?php elseif($do == "insert"):?>
@@ -26,3 +24,4 @@ if ($_SESSION['lang'] == "en") {
      header("location:index.php");
 ?>
 <?php endif?>
+<?php require "resources/includes/footer.inc" ?>
