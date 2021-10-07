@@ -52,14 +52,14 @@ if ($_SESSION['lang'] == "en") {
         <section class="login border-top">
             <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">username</label>
+                    <label for="exampleInputEmail1" class="form-label"><?= $lang['username'] ?></label>
                     <input type="text" class="form-control" id="exampleInputEmail1" name="adminUsername">
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <label for="exampleInputPassword1" class="form-label"><?= $lang['password'] ?></label>
                     <input type="password" class="form-control" id="exampleInputPassword1" name="adminPassword">
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary"><?= $lang['submit'] ?></button>
             </form>
         </section>
     </div>

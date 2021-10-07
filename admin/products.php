@@ -1,13 +1,6 @@
 <?php  
     session_start();
     $do=isset($_GET['do'])?$_GET['do']:"manage"; 
-if ($_SESSION['lang'] == "en") {
-    include "resources/lang/en.php";
-} elseif ($_SESSION['lang'] == "ar") {
-    include "resources/lang/ar.php";
-} else {
-    include "resources/lang/en.php";
-}
 ?>
 <?php require "config.php"?>
 <?php require "resources/includes/header.inc" ?>
@@ -32,33 +25,30 @@ if ($_SESSION['lang'] == "en") {
 <!--Display members table-->
 <div class="display-members mt-4">
     <div class="container-fluid">
-        <a class="btn btn-primary" href="?do=add"><i class="fas fa-user"></i> add Product</a>
+        <a class="btn btn-primary" href="?do=add"><i class="fas fa-user"></i> <?= $lang['addProduct'] ?></a>
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">image</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Control</th>
+                    <th scope="col"><?= $lang['productName'] ?></th>
+                    <th scope="col"><?= $lang['ProductDesc'] ?></th>
+                    <th scope="col"><?= $lang['price'] ?></th>
+                    <th scope="col"><?= $lang['cat'] ?></th>
+                    <th scope="col"><?= $lang['control'] ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php  foreach($rows as $row):?>
                 <tr>
-                    <th scope="row">
-                        <!-- <img style="height:15vh" src="public/image/uploaded/members/<?= $row['avatar']?>"
-                            alt="<?= $row['avatar']?>"> -->
-                    </th>
                     <th scope="row"><?= $row['productname']?></th>
+                    <th scope="row"><?= $row['description']?></th>
                     <td><?= $row['price']?></td>
                     <td><?= $row['catname']?></td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                             <a type="button" class="btn btn-info" title="show"
                                 href="?do=show&productid=<?= $row['product_id']?>"><i class="fas fa-eye"></i></a>
-                            <a type="button" class="btn btn-warning" title="edit"><i class="fas fa-edit"></i></a>
-                            <a type="button" class="btn btn-danger" title="remove"><i class="fas fa-trash"></i></a>
+                            <a type="button" class="btn btn-warning" title="edit" href="?do=edit&productid=<?= $row['product_id']?>"><i class="fas fa-edit" ></i></a>
+                            <a type="button" class="btn btn-danger" title="remove" href="?do=delete&productid=<?= $row['product_id']?>"><i class="fas fa-trash"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -89,18 +79,18 @@ if ($_SESSION['lang'] == "en") {
 <?php elseif($do == "add"):?>
 <div class="add-product">
     <div class="container-fluid">
-        <h1 class="text-center">Add Product</h1>
+        <h1 class="text-center"><?= $lang['addProduct'] ?></h1>
         <form method="post" action="?do=insert" enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Product name</label>
+                <label for="exampleInputEmail1" class="form-label"><?= $lang['productName'] ?></label>
                 <input type="text" class="form-control" name="productname">
             </div>
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Price</label>
+                <label for="exampleInputEmail1" class="form-label"><?= $lang['price'] ?></label>
                 <input type="number" class="form-control" name="price">
             </div>
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Description</label>
+                <label for="exampleInputEmail1" class="form-label"><?= $lang['ProductDesc'] ?></label>
                 <input type="text" class="form-control" name="desc">
             </div>
             <div class="mb-3">
@@ -123,7 +113,7 @@ if ($_SESSION['lang'] == "en") {
                 <input class="form-control" type="file" id="formFile" name="avatar">
             </div>-->
             <!--/Upload member photo-->
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary"><?= $lang['submit'] ?></button>
         </form>
     </div>
 </div>
@@ -168,8 +158,54 @@ if ($_SESSION['lang'] == "en") {
      } 
     ?>
 <?php elseif($do == "edit"):?>
+    <?php 
+            $product_id = isset($_GET['product_id']) && is_numeric($_GET['product_id']) ? intval($_GET['product_id']) : 0;
+            $stmt = $con->prepare("SELECT * FROM procducts WHERE product_id = ?");
+            $stmt -> execute(array($product_id));
+            $row = $stmt->fetch();
+            $count = $stmt -> rowCount();
+        ?>
+            <div class="container">
+
+            <h1 class="text-center"><?= $lang['EditProduct']?></h1>
+
+            <form method="post" action="?do=update" enctype="multipart/form-data">
+    <div class="mb-3">
+    <input type="hidden" class="form-control" value="<?= $row['product_id']?>" name="product_id">
+    <label for="exampleInputEmail1" class="form-label"><?= $lang['productName'] ?></label>
+    <input type="text" class="form-control" value="<?= $row['productname']?>" name="productname">
+</div>
+<div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label"><?= $lang['ProductCategory'];?></label> 
+    <input type="text" class="form-control" value="<?= $row['cat_id']?>" name="productcategory">
+</div>
+<div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label"><?= $lang['ProductDesc']?></label> 
+    <input type="number" class="form-control" value="<?= $row['description']?>" name="description">
+</div>
+<div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label"><?= $lang['price']?></label> 
+    <input type="number" class="form-control" value="<?= $row['price']?>" name="productprice">
+</div>
+<div class="mb-3">
+    <label for="formFile" class="form-label"><?= $lang['upload']?></label>
+    <input class="form-control" type="file" id="formFile" name="avatar">
+</div>
+<button type="submit" class="btn btn-primary"><?= $lang['update']?></button>
+</form>
+</div>
+
+
 <?php elseif($do == "update"):?>
+
 <?php elseif($do == "delete"):?>
+    <?php
+                $product_id = $_GET["product_id"];
+                $stmt = $con -> prepare("DELETE FROM procducts WHERE product_id=?");
+                $stmt -> execute(array($product_id));
+                header("location:products.php");
+            ?>
+
 <?php elseif($do == "show"):?>
     <?php 
     //Fetch member with his id
@@ -186,16 +222,16 @@ if ($_SESSION['lang'] == "en") {
     <h1><?= $row['productname']?></h1>
         <!--Form to show member data -->
         <form>
-            <label>Product Name</label>
+            <label><?= $lang['productName'] ?></label>
             <input class="form-control" type="text" placeholder="<?= $row['productname']?>" disabled>
-            <label>description</label>
+            <label><?= $lang['ProductDesc'] ?></label>
             <input class="form-control" type="text" placeholder="<?= $row['description']?>" disabled>
             <label>	price</label>
             <input class="form-control" type="number" placeholder="<?= $row['price']?>" disabled>
-            <label>Category name</label>
+            <label><?= $lang['catname'] ?></label>
             <input class="form-control" type="text" placeholder="<?= $row['catname']?>" disabled>
         </form>
-        <a href="?do=manage" class="btn btn-dark">Back</a>
+        <a href="?do=manage" class="btn btn-dark"><?= $lang['back'] ?></a>
         <!--/Form to show member data -->
     </div>
 </div>
