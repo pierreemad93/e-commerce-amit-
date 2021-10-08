@@ -18,10 +18,10 @@ session_start();
                         $rows = $stmt->fetchAll();
                     ?>    
                     <ul>
-                     <?php  foreach($rows as $row):?>
-                        <li><?= $row['username']?></li>
+                        <?php  foreach($rows as $row):?>
+                            <li><?= $row['username']?></li>
                         <?php endforeach?>            
-                        </ul>
+                    </ul>
                     
                 </div>
             </div>

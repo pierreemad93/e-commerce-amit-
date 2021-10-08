@@ -16,8 +16,7 @@
                 $count = $stmt2->fetchColumn();
                 return $count;
             }
-            else
-            {
+            else{
                 $stmt3 = $con -> prepare("SELECT COUNT($id) FROM $table"); 
                 $stmt3 -> execute();
                 $count = $stmt3->fetchColumn();
