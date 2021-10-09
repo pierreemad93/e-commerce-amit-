@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="public/css/bootstrap.min.css">
     <?php endif; ?>
     <link rel="stylesheet" href="public/css/all.min.css">
-    <link rel="stylesheet" href="public/css/main.css">
+    <link rel="stylesheet" href="public\css\main.css">
     <title>ecommerce</title>
 </head>
 <body>
