@@ -75,7 +75,7 @@
         <form method="post" action="?do=insert" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label"><?= $lang['catname'] ?></label>
-                <input type="text" class="form-control" name="catname">
+                <input type="text" class="form-control" name="catname" required>
             </div>
             <button type="submit" class="btn btn-primary"><?= $lang['submit'] ?></button>
         </form>
@@ -84,12 +84,17 @@
 
 <?php elseif($do == "insert"):?>
     <?php 
-     if($_SERVER['REQUEST_METHOD'] == 'POST'){
-         $catname = $_POST['catname'] ;
-         $stmt= $con->prepare('INSERT INTO categories (catname) VALUES (?)');
-         $stmt->execute(array($catname));
-         header('location:categories.php?do=add');
-     } 
+    
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        if (empty ($_POST["catname"])) {  
+            header('location:categories.php?do=add');
+        } else {  
+            $catname = $_POST['catname'] ;
+            $stmt= $con->prepare('INSERT INTO categories (catname) VALUES (?)');
+            $stmt->execute(array($catname));
+            header('location:categories.php?do=add');  
+        }
+    } 
     ?>
 
 
