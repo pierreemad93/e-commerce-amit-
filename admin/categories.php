@@ -3,6 +3,7 @@
     $do=isset($_GET['do'])?$_GET['do']:"manage"; 
 
 ?>
+<?php include('language.php')?>
 <?php require "config.php"?>
 <?php require "resources/includes/header.inc" ?>
 <?php require "resources/includes/navbar.inc"?>

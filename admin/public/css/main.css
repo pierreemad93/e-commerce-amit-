@@ -1,3 +1,26 @@
+/* start  dashboard page */
+.countable .members , 
+.countable .products , 
+.countable .categories{
+    font-size: 35px;
+    color: #ecf0f1;
+}
+.countable .members a .icon, 
+.countable .products a .icon, 
+.countable .categories a .icon {
+   color: #ecf0f1;
+}
+.countable .members {
+    background-color:  #2980b9;
+}
+.countable .products {
+    background-color:  #27ae60;
+}
+.countable .categories{
+    background-color:  #9b59b6;
+}
+/* end  dashboard page */
+
 .project-tab {
     padding: 10%;
     margin-top: -8%;

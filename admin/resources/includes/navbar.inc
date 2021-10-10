@@ -20,19 +20,26 @@
                     <a class="nav-link" href="categories.php"><?= $lang['categories'] ?></a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $lang['language'] ?></a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="?lang=en"><?= $lang['english'] ?></a></li>
-                        <li><a class="dropdown-item" href="?lang=ar"><?= $lang['arabic'] ?></a></li>
-                    </ul>
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $lang['language'] ?></a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <?php if($_SESSION['lang'] == 'ar'):?>
+                    <li><a class="dropdown-item" href="<?php $_SERVER['PHP_SELF']?>?lang=en"><?= $lang['english'] ?></a></li>
+                <?php else:?>
+                    <li><a class="dropdown-item" href="<?php $_SERVER['PHP_SELF']?>?lang=ar"><?= $lang['arabic'] ?></a></li>
+                <?php endif?>
+            </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $_SESSION['USER_NAME']?></a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="profile.php?id=' . $_SESSION['USER_ID']">Profile</a></li>
-                        <li><a class="dropdown-item" href="Logout.php">Logout</a></li>
-                    </ul>
-                </li>
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <?php echo $_SESSION['FULL_NAME']?>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="members.php?do=edit&userid=<?= $_SESSION['USER_ID'] ?>">Profile</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="Logout.php">Logout</a></li>
+          </ul>
+        </li>
                 
             </ul>
         </div>

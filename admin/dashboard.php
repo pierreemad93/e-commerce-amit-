@@ -1,139 +1,113 @@
-<?php
-session_start();
-
-?>
+<?php session_start(); ?>
+<?php include('language.php')?>
 <?php require "config.php"?>
 <?php require "resources/includes/header.inc" ?>
 <?php require "resources/includes/navbar.inc"?>
 <?php require "resources/functions/function.php"?>
 
-<!-- Users Counter -->
-<section id="tabs" class="project-tab">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <nav>
-                            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                <a class="nav-item nav-link active mt-5" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true"> <h5>Total Users</h5> ( <?php echo countItem("userid","users","groupid = 0")?>
-                                        <?php
-                                        $stmt=$con->prepare("SELECT * FROM users ORDER BY userid DESC LIMIT 5");
-                                        $stmt->execute();
-                                        $rows = $stmt->fetchAll();
-                                        ?> ) </a>
-                            </div>
-                        </nav>
-                        <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                            <p class="text-center">Latest Users</p>
-                                <table class="table" cellspacing="0">
-                                    
-                                    <thead>
-                                    
-                                        <tr>
-                                            <th>Username</th>
-                                            <th>Email</th>
-                                        </tr>
-                                        
-                                    </thead>
-                                    <tbody>
-                                        <?php  foreach($rows as $row):?>
-                                        <tr>
-                                            <td><?= $row['username']?></td>
-                                            <td><?= $row['email']?></td>
-                                        </tr>
-                                        <?php endforeach?>
-                                    </tbody>
-                                </table>
-                            </div>
-                            
-                    </div>
-                </div>
+<div class="container countable">
+    <div class="row mt-3">
+        <!-- that Display the count of users -->
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="members d-flex justify-content-around">
+                <a href="members.php" title="Number of Members">
+                    <i class="fas fa-users fa-1x icon"></i>
+                </a>
+                <?php echo countItem("userid","users","groupid = 0")?>
             </div>
-        </section>
+        </div>
+        <!-- that Display the count of products -->
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="products d-flex justify-content-around">
+                <a href="products.php" title="Number of Members">
+                    <i class="fas fa-dolly fa-1x icon"></i>
+                </a>
+                <?php echo countItem("product_id ","procducts")?>
+            </div>
+        </div>
+        <!-- that Display the count of category -->
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="categories d-flex justify-content-around">
+                <a href="categories.php" title="Number of Members">
+                    <i class="fas fa-tags fa-1x icon"></i>
+                </a>
+                <?php echo countItem("cat_id ","categories")?>
+            </div>
 
-        <!-- Products Counter -->
-        <section id="tabs" class="project-tab">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <nav>
-                            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                <a class="nav-item nav-link active mt-5" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Total Products ( <?php echo countItem("productname","procducts")?>
-                                            <?php
-                                                $stmt=$con->prepare("SELECT * FROM procducts ORDER BY product_id DESC LIMIT 5");
-                                                $stmt->execute();
-                                                $rows = $stmt->fetchAll();
-                                            ?>    
-                                            ) </a>
-                            </div>
-                        </nav>
-                        <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                            <h5 class="text-center">Latest Products</h5>
-                                <table class="table" cellspacing="0">
-                                    
-                                    <thead>
-                                    
-                                        <tr>
-                                            <th>Product Name</th>
-                                        </tr>
-                                        
-                                    </thead>
-                                    <tbody>
-                                        <?php  foreach($rows as $row):?>
-                                        <tr>
-                                            <td><?= $row['productname']?></td>
-                                        </tr>
-                                        <?php endforeach?>
-                                    </tbody>
-                                </table>
-                            </div>
-                            
+        </div>
+    </div>
+    <section class="count mt-3">
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        The latest users
+                    </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <?php
+                            $stmt=$con->prepare("SELECT * FROM users ORDER BY userid DESC LIMIT 5");
+                            $stmt->execute();
+                            $rows = $stmt->fetchAll();
+                        ?>
+                        <?php  foreach($rows as $row):?> 
+                            <h3><?= $row['username']?></h3>
+                        <?php endforeach?>
                     </div>
                 </div>
             </div>
-        </section>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        The latest products
+                    </button>
+                </h2>
+                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                    <?php
+                          $stmt=$con->prepare("SELECT * FROM procducts ORDER BY product_id DESC LIMIT 5");
+                        $stmt->execute();
+                        $rows = $stmt->fetchAll();
+                    ?>
+                    <?php  foreach($rows as $row):?>
+                        <h3>
+                            <?= $row['productname']?>
+                        </h3>
+                    <?php endforeach?>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                        The latest categories
+                    </button>
+                </h2>
+                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <?php
+                                    $stmt=$con->prepare("SELECT * FROM categories ORDER BY cat_id DESC LIMIT 5");
+                                    $stmt->execute();
+                                    $rows = $stmt->fetchAll();
+                        ?>
+                        <?php  foreach($rows as $row):?>
 
-        <!-- Categories Counter -->
-        <section id="tabs" class="project-tab">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <nav>
-                            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                <a class="nav-item nav-link active mt-5" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Total Categories ( <?php echo countItem("catname","categories")?>
-                                            <?php
-                                                $stmt=$con->prepare("SELECT * FROM categories ORDER BY cat_id DESC LIMIT 5");
-                                                $stmt->execute();
-                                                $rows = $stmt->fetchAll();
-                                            ?>      
-                                            ) </a>
-                            </div>
-                        </nav>
-                        <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                            <h5 class="text-center">Latest Categories</h5>
-                                <table class="table" cellspacing="0">
-                                    
-                                    <thead>
-                                    
-                                        <tr>
-                                            <th>Category Name</th>
-                                        </tr>
-                                        
-                                    </thead>
-                                    <tbody>
-                                        <?php  foreach($rows as $row):?>
-                                        <tr>
-                                            <td><?= $row['catname']?></td>
-                                        </tr>
-                                        <?php endforeach?>
-                                    </tbody>
-                                </table>
-                            </div>
-                            
+                            <h3> 
+                                <?= $row['catname']?> 
+                            </h3>  
+                        <?php endforeach?>
                     </div>
                 </div>
             </div>
-        </section>
-<?php require "resources/includes/footer.inc" ?>
+        </div>
+    </section>
+
+
+    <?php require "resources/includes/footer.inc" ?>

@@ -1,3 +1,4 @@
+
 <?php
    $lang = array(
        "admin_login" => "Admin login" ,
@@ -11,7 +12,7 @@
        "categories" => "Categories",
        "language" => "Language",
        "english" => "English",
-       "arabic" => "Arabic",
+       "arabic" => "العربية",
        "addMember" => "Add Member",
        "profilePic" => "Profile Picture",
        "email" => "Email",

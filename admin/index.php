@@ -1,15 +1,6 @@
 <?php
 session_start();
-// Set Language variable
-$_SESSION['lang']=isset($_GET['lang'])?$_GET['lang']:"en";
-// Include Language file
-if ($_SESSION['lang'] == "en") {
-    include "resources/lang/en.php";
-} elseif ($_SESSION['lang'] == "ar") {
-    include "resources/lang/ar.php";
-} else {
-    include "resources/lang/en.php";
-}
+include('language.php');
 ?>
 <?php require "config.php"?>
 <?php require "resources/functions.php"?>
@@ -22,15 +13,17 @@ if ($_SESSION['lang'] == "en") {
         $query= "SELECT * FROM  users WHERE username= ? AND password= ? AND groupid !=0";
         $stmt= $con->prepare($query);
         $stmt->execute(array($adminUsername , $hashedPass));
-        $row= $stmt->fetchAll();
         /*
          ** $rowCount() -> boolen function return 1 if data in DB | 0 if data doesn't in DB
         */
         $count= $stmt->rowCount();
+        
+        $row= $stmt->fetch();
+        
         $inDb= 1 ;
         if ($count == $inDb){
             $_SESSION['USER_ID'] = $row['userid'];
-            $_SESSION['USER_NAME'] = $row['username'];
+            $_SESSION['USER_NAME'] = $adminUsername;
             $_SESSION['EMAIL'] = $row['email'];
             $_SESSION['FULL_NAME'] = $row['fullname'];
             $_SESSION['GROUP_ID'] = $row['groupid'];

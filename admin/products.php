@@ -2,6 +2,7 @@
     session_start();
     $do=isset($_GET['do'])?$_GET['do']:"manage"; 
 ?>
+<?php include('language.php')?>
 <?php require "config.php"?>
 <?php require "resources/includes/header.inc" ?>
 <?php require "resources/includes/navbar.inc"?>
@@ -159,12 +160,14 @@
     ?>
 <?php elseif($do == "edit"):?>
     <?php 
-            $product_id = isset($_GET['product_id']) && is_numeric($_GET['product_id']) ? intval($_GET['product_id']) : 0;
-            $stmt = $con->prepare("SELECT * FROM procducts WHERE product_id = ?");
-            $stmt -> execute(array($product_id));
+            $productid = isset($_GET['productid']) && is_numeric($_GET['productid']) ? intval($_GET['productid']) : 0;
+            $stmt = $con -> prepare("SELECT * FROM procducts WHERE product_id = ?");
+            $stmt -> execute(array($productid));
             $row = $stmt->fetch();
             $count = $stmt -> rowCount();
+            
         ?>
+        <?php if($count == 1):?>
             <div class="container">
 
             <h1 class="text-center"><?= $lang['EditProduct']?></h1>
@@ -176,27 +179,32 @@
     <input type="text" class="form-control" value="<?= $row['productname']?>" name="productname">
 </div>
 <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label"><?= $lang['ProductCategory'];?></label> 
-    <input type="text" class="form-control" value="<?= $row['cat_id']?>" name="productcategory">
-</div>
-<div class="mb-3">
     <label for="exampleInputEmail1" class="form-label"><?= $lang['ProductDesc']?></label> 
-    <input type="number" class="form-control" value="<?= $row['description']?>" name="description">
+    <input type="text" class="form-control" value="<?= $row['description']?>" name="description">
 </div>
 <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label"><?= $lang['price']?></label> 
     <input type="number" class="form-control" value="<?= $row['price']?>" name="productprice">
 </div>
-<div class="mb-3">
-    <label for="formFile" class="form-label"><?= $lang['upload']?></label>
-    <input class="form-control" type="file" id="formFile" name="avatar">
-</div>
 <button type="submit" class="btn btn-primary"><?= $lang['update']?></button>
 </form>
 </div>
-
+<?php endif?>
 
 <?php elseif($do == "update"):?>
+    <?php 
+                if($_SERVER['REQUEST_METHOD'] == "POST")
+                {
+                    $product_id =$_POST['product_id'];
+                    $productname =$_POST['productname'];
+                    $description = $_POST['description'];
+                    $productprice =$_POST['productprice'];
+                    $stmt = $con -> prepare("UPDATE procducts SET productname=? , description=? , price=? WHERE product_id=?");
+                    $stmt -> execute(array($productname , $description , $productprice , $product_id));
+                    header("location:products.php");
+                }
+            ?>
+
 
 <?php elseif($do == "delete"):?>
     <?php

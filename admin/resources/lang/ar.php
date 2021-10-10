@@ -1,4 +1,4 @@
-<html xmlns="http://www.w3.org/1999/xhtml" dir="rtl" lang="ar" xml:lang="ar">
+
 <?php
    $lang = array(
        "admin_login" => "لوحه تحكم الادمن" ,
