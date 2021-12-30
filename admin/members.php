@@ -44,6 +44,7 @@ $do = isset($_GET['do']) ? $_GET['do'] : "manage";
                                     <img style="height:15vh" src="public/image/uploaded/members/<?= $row['avatar'] ?>" alt="<?= $row['avatar'] ?>">
                                 <?php else:?>
                                     <img style="height:15vh" src="Screenshot (1).png" alt="UserProfile Picture">
+                                <?php endif?>
                             </th>
                             <th scope="row"><?= $row['username'] ?></th>
                             <td><?= $row['email'] ?></td>
@@ -56,8 +57,7 @@ $do = isset($_GET['do']) ? $_GET['do'] : "manage";
                                 </div>
                             </td>
                         </tr>
-                        <?php endif?>
-                    <?php endforeach ?>
+                        <?php endforeach ?>
                 </tbody>
             </table>
             <!-- Start pagination Counter -->
