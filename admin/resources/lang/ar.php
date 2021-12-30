@@ -36,7 +36,7 @@ $lang = array(
     "EditProduct" => "تعديل منتج",
     "ProductCategory" => "فئة المنتج",
     "LatestUser" => "المستخدمين الجدد",
-    "LastestProduct" => "المنتجات الجدد",
-    "LatestCategories" => "الفئات الجدد"
+    "LastestProduct" => "المنتجات الجديدة",
+    "LatestCategories" => "الفئات الجديدة"
 );
 ?>
